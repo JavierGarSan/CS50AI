@@ -41,10 +41,10 @@ def actions(board):
     Returns set of all possible actions (i, j) available on the board.
     """
     possible = []
-    for row in board:
-        for item in row:
-            if item == EMPTY:
-                possible.append(f"{row.index(item)}, {board.index(board)}")
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == EMPTY:
+                possible.append(f"{i}, {j}")
 
     print(possible)
 
