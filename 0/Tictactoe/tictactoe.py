@@ -40,20 +40,27 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    possible = []
+    possible = set()
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == EMPTY:
-                possible.append(f"{i}, {j}")
+                possible.add((i,j))
 
-    print(possible)
+    return(possible)
 
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    resultboard = board
+    if action in possible:
+        resultboard[action[0]][action[1]] = currentPlayer
+    else:
+        raise Exception("Action is not possible")
+
+    return resultboard
+    
 
 
 def winner(board):
@@ -86,4 +93,6 @@ def minimax(board):
 
 
 board = initial_state()
-actions(board)
+currentPlayer = player(board)
+possible = actions(board)
+print(result(board, (0,0)))
