@@ -1,0 +1,11 @@
+while not all checked:
+    check possible
+    do one choice:
+        check terminal
+        if terminal:
+            utility
+            record
+            go do another choice
+
+        
+

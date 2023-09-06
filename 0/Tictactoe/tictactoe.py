@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 
 import math
+import copy 
 
 X = "X"
 O = "O"
@@ -12,9 +13,9 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
+    return [[O, O, X],
+            [X, O, EMPTY],
+            [EMPTY, X, EMPTY]]
 
 
 def player(board):
@@ -40,11 +41,11 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    possible = set()
+    possible = []
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == EMPTY:
-                possible.add((i,j))
+                possible.append((i,j))
 
     return(possible)
 
@@ -53,16 +54,14 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    resultboard = board
-    if action in actions(board):
-        resultboard[action[0]][action[1]] = player(board)
+    resultboard = copy.deepcopy(board)
+    actionsPosible =actions(resultboard)
+    if action in actionsPosible:
+        resultboard[action[0]][action[1]] = player(resultboard)
     else:
         raise Exception("Action is not possible")
 
     return resultboard
-    
-
-
 def winner(board):
     """
     Returns the winner of the game, if there is one.
@@ -99,8 +98,6 @@ def winner(board):
     
 
     return winner
-
-
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
@@ -118,8 +115,6 @@ def terminal(board):
         finished= True
     
     return finished
-
-
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
@@ -132,29 +127,68 @@ def utility(board):
             utility = -1
 
     return utility
-
-
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    boards = [board]
+    """
+    actionsPossible = actions(board)
+    oActionsPossible = []
+    for oActions in actionsPossible:
+        oActionsPossible.append(oActions)
     
-    full = []
-    finished = False
-    for row in board:
-        for item in row:
-            full.append(item)
-    
-    movesleft=full.count(EMPTY)
-    for action in actions(board):
-        print (action)
-        print(result(board, action))
+    viableActions = []
+    for i in range(len(oActionsPossible)):
+        currentResult = result(board,oActionsPossible[i])
+        print(currentResult)
+        if utility(currentResult) != -1:
+            viableActions.append(oActionsPossible[i])
+
+        actionsPossible1 = actions(currentResult)
+        oActionsPossible1 = []
+        for oActions1 in actionsPossible1:
+            oActionsPossible1.append(oActions1)
+        
+        for j in range(len(oActionsPossible1)):
+            
+            action = result(currentResult, oActionsPossible1[j])
+            print(action)
+            print()
+            if utility(action) == 1:
+                print("OMG")
+    """
+    optimal = ""
+    possible = actions(board)
+    for action in possible:
+        boardCurrent = result(board, action)
+        print(boardCurrent)
+        if terminal(boardCurrent):
+            util = utility(boardCurrent)
+            if util == 1:
+                optimal = action
+        else:
+            possible = actions(boardCurrent)
+            for action in possible:
+                boardCurrent = result(boardCurrent, action)
+                print(boardCurrent)
+                if terminal(boardCurrent):
+                    print("terminal reached")
+                    util = utility(boardCurrent)
+                    if util == 1:
+                        optimal = action
+            
 
 
     
+    return optimal
+
+
+
+
+   
+    
     
 
 
-board = initial_state()
-minimax(board)
+oboard = initial_state()
+print(minimax(oboard))
