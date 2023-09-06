@@ -5,7 +5,13 @@ while not all checked:
         if terminal:
             utility
             record
-            go do another choice
+        else:
+            check possible
+            do one choice:
+            if terminal:
+                utility
+                record
+                go do another choice
 
         
 

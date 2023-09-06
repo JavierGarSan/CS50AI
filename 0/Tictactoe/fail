@@ -1,0 +1,120 @@
+ """
+    Returns the optimal action for the current player on the board.
+    """
+    """
+    actionsPossible = actions(board)
+    oActionsPossible = []
+    for oActions in actionsPossible:
+        oActionsPossible.append(oActions)
+    
+    viableActions = []
+    for i in range(len(oActionsPossible)):
+        currentResult = result(board,oActionsPossible[i])
+        print(currentResult)
+        if utility(currentResult) != -1:
+            viableActions.append(oActionsPossible[i])
+
+        actionsPossible1 = actions(currentResult)
+        oActionsPossible1 = []
+        for oActions1 in actionsPossible1:
+            oActionsPossible1.append(oActions1)
+        
+        for j in range(len(oActionsPossible1)):
+            
+            action = result(currentResult, oActionsPossible1[j])
+            print(action)
+            print()
+            if utility(action) == 1:
+                print("OMG")
+    """ """
+        print(boardCurrent[1])
+        if terminal(boardCurrent):
+            util = utility(boardCurrent)
+            if util == 1:
+                optimal = action
+        else:
+            possible = actions(boardCurrent)
+            for action2 in possible:
+                boardCurrent = result(boardCurrent, action2)
+                print(boardCurrent)
+                if terminal(boardCurrent):
+                    print("terminal reached")
+                    util = utility(boardCurrent)
+                    if util == 1:
+                        optimal = action2
+        """      
+    """
+    boards = [board]
+    optimal = ""
+    evaluation = []
+    possible = actions(boards[0])
+    for action in possible:
+        boards.append(result(boards[0], action))
+        possible = actions(boards[1])
+        for action1 in possible:
+            boards.append(result(boards[1], action1))
+            possible = actions(boards[2])
+            for action2 in possible:
+                boards.append(result(boards[2], action2))
+                possible = actions(boards[3])
+                currentEvau = []
+                if terminal(boards[3]):
+                    print(f"terminal reached {boards[3]}")
+                    if utility(boards[3]) == 1:
+                        currentEvau.append(1)
+                        print(1)
+                    if utility(boards[3]) == 0:
+                        currentEvau.append(0)
+                        print(0)
+                    if utility(boards[3]) == -1:
+                        currentEvau.append(-1)
+                        print(-1)
+                    evaluation.append(currentEvau)
+
+                else:
+                    for action3 in possible:
+                        currentEvau = []
+                        boards.append(result(boards[3], action3))
+                        possible = actions(boards[4])
+                        if terminal(boards[4]):
+                            print(f"terminal reached {boards[3]}")
+                            if utility(boards[4]) == 1:
+                                currentEvau.append(1)
+                                print(1)
+                            if utility(boards[4]) == 0:
+                                currentEvau.append(0)
+                                print(0)
+                            if utility(boards[4]) == -1:
+                                currentEvau.append(-1)
+                                print(-1)
+                            evaluation.append(currentEvau)
+                        else:
+                            for action4 in possible:
+                                currentEvau = []
+                                boards.append(result(boards[4], action4))
+                                possible = actions(boards[5])
+                                if terminal(boards[5]):
+                                    print(f"terminal reached {boards[3]}")
+                                    if utility(boards[5]) == 1:
+                                        currentEvau.append(1)
+                                        print(1)
+                                    if utility(boards[5]) == 0:
+                                        currentEvau.append(0)
+                                        print(0)
+                                    if utility(boards[5]) == -1:
+                                        currentEvau.append(-1)
+                                        print(-1)
+                                    evaluation.append(currentEvau)
+                                boards.pop(5)
+                                print("Lopped fifth stage")
+                        print("Lopped fourth stage")
+                        boards.pop(4)
+                print("Lopped third stage")
+                boards.pop(3)
+            print("Lopped second stage")
+            boards.pop(2)
+        print("Lopped first stage")
+        boards.pop(1)
+    print(boards)
+    print(evaluation)
+    """

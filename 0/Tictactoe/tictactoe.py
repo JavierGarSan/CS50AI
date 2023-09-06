@@ -13,9 +13,9 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[O, O, X],
-            [X, O, EMPTY],
-            [EMPTY, X, EMPTY]]
+    return [[EMPTY, X, O],
+            [O, X, EMPTY],
+            [X, EMPTY, O]]
 
 
 def player(board):
@@ -127,68 +127,53 @@ def utility(board):
             utility = -1
 
     return utility
-def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
-    """
-    """
-    actionsPossible = actions(board)
-    oActionsPossible = []
-    for oActions in actionsPossible:
-        oActionsPossible.append(oActions)
-    
-    viableActions = []
-    for i in range(len(oActionsPossible)):
-        currentResult = result(board,oActionsPossible[i])
-        print(currentResult)
-        if utility(currentResult) != -1:
-            viableActions.append(oActionsPossible[i])
 
-        actionsPossible1 = actions(currentResult)
-        oActionsPossible1 = []
-        for oActions1 in actionsPossible1:
-            oActionsPossible1.append(oActions1)
-        
-        for j in range(len(oActionsPossible1)):
-            
-            action = result(currentResult, oActionsPossible1[j])
-            print(action)
+
+def evaluation(board, actions):
+    eva=[]
+    for possible in actions:
+        if terminal(result(board, possible)):
+            eva.append(utility(result(board, possible)))
             print()
-            if utility(action) == 1:
-                print("OMG")
-    """
-    optimal = ""
-    possible = actions(board)
-    for action in possible:
-        boardCurrent = result(board, action)
-        print(boardCurrent)
-        if terminal(boardCurrent):
-            util = utility(boardCurrent)
-            if util == 1:
+
+    return eva
+
+def MaxorMin(board):
+    if player(board) ==X:
+        return "Max"
+    if player(board) == O:
+        return "Min"
+
+def maximising(board,optimal):
+    v=-math.inf
+    results = []
+    if terminal(board):
+       return(utility(board))
+    for action in actions(board):
+        if terminal(result(board,action)):
+            if utility(result(board,action)) == 1:
                 optimal = action
-        else:
-            possible = actions(boardCurrent)
-            for action in possible:
-                boardCurrent = result(boardCurrent, action)
-                print(boardCurrent)
-                if terminal(boardCurrent):
-                    print("terminal reached")
-                    util = utility(boardCurrent)
-                    if util == 1:
-                        optimal = action
+            results.append(utility(result(board,action)))
+
+    
+    v = max(v,min(results))
+        
+    return v
+
+def minimising(board):
+    v=math.inf()
+    
+        
+
+def minimax(board,Optimal):
+
+   if MaxorMin(board) == "Max":
+        if maximising(board,Optimal) == 1:
+            print(Optimal)
+
+
+   return Optimal
             
-
-
-    
-    return optimal
-
-
-
-
-   
-    
-    
-
-
-oboard = initial_state()
-print(minimax(oboard))
+optimal=""
+oBoard = initial_state()
+(minimax(oBoard,oBoard))
