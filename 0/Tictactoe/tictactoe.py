@@ -173,7 +173,6 @@ def minimax(board):
                 index = i
 
         optimal = moves[index]
-        print(optimal)
         return optimal
 
     elif turn == "Min":
@@ -181,7 +180,7 @@ def minimax(board):
 
         for action in actions(board):
             moves.append(action)
-
+                
         lowestScore = minimising(result(board,moves[0]))
         index = 0
         for i in range(1,len(moves)):
@@ -190,6 +189,5 @@ def minimax(board):
                 index = i
 
         optimal = moves[index]
-        print(optimal)
         return optimal
 
