@@ -13,9 +13,9 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[X, EMPTY, O],
-            [EMPTY, O, EMPTY],
-            [EMPTY, EMPTY, X]]
+    return [[EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY]]
 
 
 def player(board):
@@ -127,73 +127,69 @@ def utility(board):
 
     return utility
 
-
-def evaluation(board, actions):
-    eva=[]
-    for possible in actions:
-        if terminal(result(board, possible)):
-            eva.append(utility(result(board, possible)))
-            print()
-
-    return eva
-# Define the function that removes a node from the frontier and returns it.
-
-
-def remove(self):
-        # Terminate the search if the frontier is empty, because this means that there is no solution.
-    if len(self) == 0:
-        raise Exception("empty frontier")
-    else:
-            # Save the last item in the list (which is the newest node added)
-        node = self[-1]
-        # Save all the items on the list besides the last node (i.e. removing the last node)
-        self = self[:-1]
-        return node
-
-def add(board, self):
-    for action in actions(board):
-        self.append(action)
-    
-    return self
-
 def MaxorMin(board):
     if player(board) ==X:
         return "Max"
     if player(board) == O:
         return "Min"
 
-def maximising(board,optimal):
+def minimising(board):
     v=-math.inf
-    results = []
     if terminal(board):
        return(utility(board))
     for action in actions(board):
-        if terminal(result(board,action)):
-            if utility(result(board,action)) == 1:
-                optimal = action
-            results.append(utility(result(board,action)))
+        v = max(v,maximising(result(board,action)))
+    return v
 
-    
-    v = max(v,min(results))
-        
-    return v, optimal
-
-def minimising(board):
-    v=math.inf()
+def maximising(board):
+    v=math.inf
+    if terminal(board):
+       return(utility(board))
+    for action in actions(board):
+       v = min(v,minimising(result(board,action)))        
+    return v
     
         
 
-def minimax(board,optimal):
-    if maximising(board,optimal)[0] == 1:
-        print("1 found")
-        optimal = maximising(board,optimal)[1]
+def minimax(board):
+    turn = MaxorMin(board)
 
+    if terminal(board):
+        return (none)
+        
+    elif turn == "Max":
+        moves = []
 
-    return optimal
-            
-optimal=""
-self = []
-oBoard = initial_state()
-self = add(oBoard, self)
-action = (remove(self))
-print(action)
+        for action in actions(board):
+            moves.append(action)
+
+        highestScore = maximising(result(board,moves[0]))
+        print(highestScore)
+        index = 0
+        for i in range(1,len(moves)):
+            current = maximising(result(board,moves[i]))
+            if current>highestScore:
+                highestScore = current
+                index = i
+
+        optimal = moves[index]
+        print(optimal)
+        return optimal
+
+    elif turn == "Min":
+        moves = []
+
+        for action in actions(board):
+            moves.append(action)
+
+        lowestScore = minimising(result(board,moves[0]))
+        index = 0
+        for i in range(1,len(moves)):
+            if minimising(result(board,moves[i]))<lowestScore:
+                lowestScore = minimising(result(board,moves[i]))
+                index = i
+
+        optimal = moves[index]
+        print(optimal)
+        return optimal
+
